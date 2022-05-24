@@ -4,13 +4,14 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <Windows.h>
 
 class Cliente {
 private:
 	char codigo[10];
-
 	char* generar_codigo() {
 		srand(time(0));
+		Sleep(1000);
 		char letras_numeros[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		char* codigo = new char[10];
 		for (int i = 0; i < 9; i++) {
@@ -25,49 +26,65 @@ private:
 	char sexo;
 	char tarjeta_ventaPlus;
 	char registrado_web;
+
 	char correo[101];
-	
 	char* generar_correo() {
-		strcpy_s(correo, apellido);
-		strcat_s(correo, ".");
-		strcat_s(correo, nombre);
-		strcat_s(correo, "@hotmail.com");
-		return correo;
+		if (registrado_web == 'S') {
+			strcpy_s(correo, apellido);
+			strcat_s(correo, ".");
+			strcat_s(correo, nombre);
+			strcat_s(correo, "@hotmail.com");
+			return correo;
+		}
+		char* err = new char[2];
+		err[0] = '-';
+		err[1] = '\0';
+		return err;
 	}
 
 	char contrasena[10];
-
 	char* generar_contrasena() {
-		char letras_numeros[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		char* contrasena = new char[10];
-		for (int i = 0; i < 3; i++) {
-			contrasena[i] = apellido[i];
+		if (registrado_web == 'S') {
+			char letras_numeros[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+			char* contrasena = new char[10];
+			for (int i = 0; i < 3; i++) {
+				contrasena[i] = apellido[i];
+			}
+			for (int i = 3; i < 6; i++) {
+				contrasena[i] = nombre[i - 3];
+			}
+			for (int i = 6; i < 9; i++) {
+				contrasena[i] = letras_numeros[rand() % (sizeof(letras_numeros) - 1)];
+			}
+			contrasena[9] = '\0';
+			return contrasena;
 		}
-		for (int i = 3; i < 6; i++) {
-			contrasena[i] = nombre[i - 3];
-		}
-		for (int i = 6; i < 9; i++) {
-			contrasena[i] = letras_numeros[rand() % (sizeof(letras_numeros) - 1)];
-		}
-		contrasena[9] = '\0';
-		return contrasena;
+		char* err = new char[2];
+		err[0] = '-';
+		err[1] = '\0';
+		return err;
 	}
 
 	char celular[10];
-
 	char* generar_celular() {
-		char numeros[] = "0123456789";
-		char* celular = new char[10];
-		for (int i = 0; i < 10; i++) {
-			if (i == 0) {
-				celular[i] = '9';
+		if (registrado_web == 'S') {
+			char numeros[] = "0123456789";
+			char* celular = new char[10];
+			for (int i = 0; i < 10; i++) {
+				if (i == 0) {
+					celular[i] = '9';
+				}
+				else {
+					celular[i] = numeros[rand() % (sizeof(numeros) - 1)];
+				}
 			}
-			else {
-				celular[i] = numeros[rand() % (sizeof(numeros) - 1)];
-			}
+			celular[9] = '\0';
+			return celular;
 		}
-		celular[9] = '\0';
-		return celular;
+		char* err = new char[2];
+		err[0] = '-';
+		err[1] = '\0';
+		return err;
 	}
 
 	int DNI;
@@ -105,15 +122,11 @@ public:
 	void set_tarjeta(char tj_vp) {
 		tarjeta_ventaPlus = tj_vp;
 	}
-
-	void set_registrado_web(char registrado_web) {
+	
+	void set_registrado(char registrado_web) {
 		this->registrado_web = registrado_web;
 	}
 
-	void set_contrasena(char contrasena[10]) {
-		strcat_s(this->contrasena, contrasena);
-	}
-	
 	void set_DNI(int DNI) {
 		this->DNI = DNI;
 	}

@@ -28,11 +28,15 @@ public:
 		vector_cliente.push_back(obj);
 	}
 	
-	//Metodos main
 	Cliente get(int pos) {
 		return vector_cliente[pos];
 	}
-	
+
+	int rows() {
+		return vector_cliente.size();
+	}
+
+	//Metodos main
 	Cliente cliente_consultar(char* opc) {
 		do {
 			std::vector<Cliente> cliente_result;
@@ -62,7 +66,7 @@ public:
 					}
 				}
 			} else if (opc[0] == '3') {
-				char celular_consulta[11];
+				char celular_consulta[10];
 				std::cout << "Ingrese el número de celular del cliente: ";
 				std::cin >> celular_consulta;
 				for (Cliente obj : vector_cliente) {
@@ -72,6 +76,8 @@ public:
 				}
 			} else {
 				std::cout << "Opción inválida\n";
+				Sleep(1000);
+				system("cls");
 			}
 
 		} while (opc[0] != '1' && opc[0] != '2' && opc[0] != '3');
