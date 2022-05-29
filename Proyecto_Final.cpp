@@ -15,6 +15,7 @@ VendedorVector vendedorVector;
 
 void	loginUsuario();
 void 	menuDeOpciones();
+void	recuperarCuenta();
 void 	adicionarVendedores();
 void 	eliminarVendedores();
 void	modificarVendedores();
@@ -31,9 +32,9 @@ int main()
 	gotoxy(30,8); cout<<"******************** Bienvenido, Cajero ********************"<<endl;
 	gotoxy(50,10);cout<<"[1]. Ingresar"<<endl;
 	gotoxy(50,12);cout<<"[2]. Registrar"<<endl;
-	gotoxy(50,14);cout<<"Ingresa tu opcion: ";
+	gotoxy(50,14);cout<<"[3]. Recuperar contraseña"<<endl;
+	gotoxy(50,16);cout<<"Ingresa tu opcion: ";
 	cin>>choice;
-	
 	switch(choice)
 	{
 		case 1:
@@ -43,6 +44,10 @@ int main()
 			
 			adicionarVendedores();
 			break;
+
+		case 3:
+			recuperarCuenta();
+			break;
 			
 	}
 	
@@ -51,10 +56,14 @@ int main()
 
 void loginUsuario()
 {
-	int exist;
-	string nom,n;
-	int cod,c;
 	system("cls");
+	string nom;
+	string n[100];
+	int cod;
+	int c[100];
+	int i;
+	string rpta;
+	
 	gotoxy(30,6);cout<<"============================================================"<<endl;
 	gotoxy(50,8);cout<<"Ingrese su contraseña:";
 	cin>>cod;
@@ -63,34 +72,116 @@ void loginUsuario()
 	gotoxy(50,12);cout<<"Ingrese su usuario:";
 	cin>>nom;
 		
-	
-		for(int i=0;i<vendedorVector.rows();i++)
+		ifstream fe("alumnos.csv", ios::in);
+			
+			
+		while(!fe.eof()){
+				for( i=0;i<vendedorVector.rows();i++)
 	{
-		c = vendedorVector.get(i).getCodigo();	
-		n = vendedorVector.get(i).getNombre();		
-}
+		c[i] = vendedorVector.get(i).getCodigo();	
 	
-		if(c == cod && n == nom )
-		{
-		system("pause");	
-			system("cls");
+		n[i] = vendedorVector.get(i).getNombre();		
+
+			if(cod == c[i]&& nom ==  n[i])
+			{
+		system("cls");
 		gotoxy(30,6);cout<<"============================================================"<<endl;
 		gotoxy(50,8);	cout<<"Bienvenido, "<<nom<<endl;
 		gotoxy(30,10);cout<<endl;
 		gotoxy(45,12);	cout<<"Presionar enter para continuar..."<<endl;
 		system("pause");
 		system("cls");
-		
 		menuDeOpciones();
+		exit(0);
+			}
+		
 	}
-	else
-	{
-			system("cls");
-		cout<<"No se encuentra registrado";
-	
-		main();
+	system("cls");
+	main();
 	}
 }
+
+void recuperarCuenta()
+{
+	int opcion;
+	string nom;
+	string n[100];
+	int cod;
+	int c[100];
+	int i;
+	system("cls");
+	cout<<"1. Recuperar por nombre de usuario "<<endl;
+	cout<<"2. Recuperar po contraseña"<<endl;
+	cout<<"3. Volver al menu"<<endl;
+	cout<<"Ingresa tu opcion";
+	cin>>opcion;
+	
+	ifstream fe("alumnos.csv", ios::in);
+					while(!fe.eof()){
+	
+	switch(opcion)
+	{
+		case 1:
+				system("cls");
+				cout<<"Ingresa tu nombre de usuario";
+				cin>>nom;
+				
+			
+				for( i=0;i<vendedorVector.rows();i++)
+			{
+				c[i] = vendedorVector.get(i).getCodigo();	
+	
+				n[i] = vendedorVector.get(i).getNombre();	
+				
+				if(nom ==  n[i])
+				{
+				cout<<"Tu contraseña es: "<< c[i]<<endl;
+				system("pause");
+				system("cls");
+				main();
+				}
+			
+			}
+			cout<<"El usuario no existe"<<endl;
+			system("pause");
+			system("cls");
+			recuperarCuenta();
+			
+		
+	
+		case 2:
+				system("cls");
+				cout<<"Ingresa tu contraseña";
+				cin>>cod;
+			
+				for( i=0;i<vendedorVector.rows();i++)
+			{
+				c[i] = vendedorVector.get(i).getCodigo();	
+	
+				n[i] = vendedorVector.get(i).getNombre();	
+				
+				if(cod ==  c[i])
+				{
+				cout<<"Tu usuario es: "<< n[i]<<endl;
+				system("pause");
+				system("cls");
+				main();
+				}
+			}
+			cout<<"El usuario no existe"<<endl;
+			system("pause");
+			system("cls");
+			recuperarCuenta();
+			
+		case 3:
+				system("pause");
+				system("cls");
+				main();	
+			
+		}		
+}
+}
+
 
 void gotoxy(int x, int y)
 	{
