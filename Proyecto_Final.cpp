@@ -7,6 +7,10 @@
 #include <time.h>
 #include<windows.h>
 #include<locale.h>
+
+#include "CLIENTES_V.h"
+#include "PRODUCTOS.h"
+#include "VENDEDORES.h"
 #include"vendedorVector.h"
 using namespace std;
 
@@ -23,12 +27,72 @@ void 	eliminarVendedores();
 void	modificarVendedores();
 void	buscarVendedor();
 void	listarVendedores();
-	void gotoxy(int, int);
-int main()
-{	
-setlocale(LC_CTYPE, "Spanish");
+void gotoxy(int, int);
 
-tipoDeUsuario();
+CLIENTES_V cliente_vector;
+
+void MENU_CLIENTES() {
+	Beep(480, 200);
+	system("cls");
+	
+	Cliente cliente;
+
+	int rpta;
+	do {
+		rpta = cliente.pantalla_cliente();
+		Cliente* cliente = new Cliente();
+
+		switch (rpta) {
+		case 1:
+			char rpta_1;
+			do {
+				Beep(480, 200);
+				cliente_vector.vector_add(*cliente->cliente_agregar());
+				std::cout << "¿Desea continuar? (S/N)\n";
+				std::cin >> rpta_1;
+			} while (std::toupper(rpta_1) == 'S');
+			break;
+		case 2:
+			char rpta_2;
+			do {
+				Beep(480, 200);
+				cliente_vector.cliente_modificar();
+				std::cout << "¿Desea continuar? (S/N)\n";
+				std::cin >> rpta_2;
+			} while (std::toupper(rpta_2) == 'S');
+			break;
+		case 3:
+			for (int i = 0; i < cliente_vector.rows(); i++) {
+				std::cout << "codigo: " << cliente_vector.get(i).get_codigo() << '\n';
+				std::cout << "nombre: " << cliente_vector.get(i).get_nombre() << '\n';
+				std::cout << "apellido: " << cliente_vector.get(i).get_apellido() << '\n';
+				std::cout << "sexo: " << cliente_vector.get(i).get_sexo() << '\n';
+				std::cout << "con tarjeta: " << cliente_vector.get(i).get_tarjeta() << '\n';
+				std::cout << "esta registrado: " << cliente_vector.get(i).get_registrado_web() << '\n';
+				std::cout << "correo: " << cliente_vector.get(i).get_correo() << '\n';
+				std::cout << "contra: " << cliente_vector.get(i).get_contrasena() << '\n';
+				std::cout << "celular: " << cliente_vector.get(i).get_celular() << '\n';
+				std::cout << "dni: " << cliente_vector.get(i).get_DNI() << '\n';
+				std::cout << "monto: " << cliente_vector.get(i).get_monto_semanal() << '\n';
+				std::cout << "-------------------------------------------------------\n";
+			}
+		default:
+			break;
+		}
+
+		std::cout << "Regresando al inicio";
+		for (int i = 0; i < 3; i++) {
+			std::cout << ".";
+			Sleep(100);
+		}
+	} while (rpta != 5);
+	/*VOLVER A LA PANTALLA DE INICIO*/
+}
+
+int main() {	
+  setlocale(LC_CTYPE, "Spanish");
+  tipoDeUsuario();
+  MENU_CLIENTES();
 }
 
 void tipoDeUsuario()
@@ -65,7 +129,7 @@ void inicioAdmin()
 	string nom = "ADMIN";	
 		
 	gotoxy(30,8); cout<<"******************** Bienvenido, Cajero ********************"<<endl;
-	gotoxy(50,10);cout<<" Ingrese su contraseña:";
+	gotoxy(50,10);cout<<" Ingrese su contraseÃ±a:";
 	cin>>cod;
 	gotoxy(50,12);cout<<" Ingrese su nombre:";
 	cin>>nom;
@@ -91,7 +155,7 @@ void inicio()
 	
 	gotoxy(30,8); cout<<"******************** Bienvenido, Cajero ********************"<<endl;
 	gotoxy(50,10);cout<<"[1]. Ingresar"<<endl;
-	gotoxy(50,12);cout<<"[2]. Recuperar contraseña"<<endl;
+	gotoxy(50,12);cout<<"[2]. Recuperar contraseÃ±a"<<endl;
 	gotoxy(50,14);cout<<"Ingresa tu opcion:";
 	cin>>choice;
 	
@@ -122,7 +186,7 @@ void loginUsuario()
 	string rpta;
 	
 	gotoxy(30,6);cout<<"============================================================"<<endl;
-	gotoxy(50,8);cout<<"Ingrese su contraseña:";
+	gotoxy(50,8);cout<<"Ingrese su contraseÃ±a:";
 	cin>>cod;
 	cout<<endl;
 	gotoxy(30,10);cout<<"============================================================"<<endl;
@@ -172,7 +236,7 @@ void recuperarCuenta()
 	system("cls");
 	gotoxy(30,6);cout<<"======================== Recupera tu cuenta ========================";
 	gotoxy(50,8);cout<<"[1]. Recuperar por nombre de usuario "<<endl;
-	gotoxy(50,10);cout<<"[2]. Recuperar po contraseña"<<endl;
+	gotoxy(50,10);cout<<"[2]. Recuperar po contraseÃ±a"<<endl;
 	gotoxy(50,12);cout<<"[3]. Volver al menu"<<endl;
 	gotoxy(50,14);cout<<"Ingresa tu opcion:";
 	cin>>opcion;
@@ -197,11 +261,11 @@ void recuperarCuenta()
 				
 				if(nom ==  n[i])
 				{
-				gotoxy(50,10);cout<<"Se encontró tu cuenta"<<endl;
+				gotoxy(50,10);cout<<"Se encontrÃ³ tu cuenta"<<endl;
 				gotoxy(45,12);system("pause");
 				system("cls");
 				gotoxy(30,6);cout<<"======================== Recupera tu cuenta ========================";
-				gotoxy(50,8);cout<<"Tu contraseña es: "<< c[i]<<endl;
+				gotoxy(50,8);cout<<"Tu contraseÃ±a es: "<< c[i]<<endl;
 				gotoxy(45,10);system("pause");
 				system("cls");
 				main();
@@ -218,7 +282,7 @@ void recuperarCuenta()
 		case 2:
 				system("cls");
 				gotoxy(30,6);cout<<"======================== Recupera tu cuenta ========================";
-				gotoxy(50,8);cout<<"Ingresa tu contraseña:";
+				gotoxy(50,8);cout<<"Ingresa tu contraseÃ±a:";
 				cin>>cod;
 			
 				for( i=0;i<vendedorVector.rows();i++)
@@ -229,7 +293,7 @@ void recuperarCuenta()
 				
 				if(cod ==  c[i])
 				{
-				gotoxy(50,10);cout<<"Se encontró tu cuenta"<<endl;
+				gotoxy(50,10);cout<<"Se encontrÃ³ tu cuenta"<<endl;
 				gotoxy(45,12);system("pause");
 				system("cls");
 				gotoxy(30,6);cout<<"======================== Recupera tu cuenta ========================";
@@ -255,7 +319,7 @@ void recuperarCuenta()
 	}
 }
 
-//Cambiar la posición
+//Cambiar la posiciÃ³n
 void gotoxy(int x, int y)
 	{
 		HANDLE hcon;
@@ -279,7 +343,7 @@ void menuDeOpciones()
 		gotoxy(30,12);cout<<"[3].Modificar Nuevos Vendedores\n";
 		gotoxy(30,14);cout<<"[4].Buscar Nuevos Vendedores\n";
 		gotoxy(30,16);cout<<"[5].Listar Vendedores\n";
-		gotoxy(30,18);cout<<"[6].Cerrar sesión\n";
+		gotoxy(30,18);cout<<"[6].Cerrar sesiÃ³n\n";
 		gotoxy(30,20);cout<<"[7].Salir\n";
 		gotoxy(30,22);cout<<"Ingrese una opcion[1-7]:";
 		cin>>opt;
@@ -302,7 +366,7 @@ void menuDeOpciones()
 					break;
 			case 6: system("cls");
 					gotoxy(30,6); cout<<"================== MENU DE REGISTRO DE VENDEDORES ==================\n";
-					gotoxy(45,8);cout<<"¿Esta seguro de cerrar sesión(SI/si)?:";
+					gotoxy(45,8);cout<<"Â¿Esta seguro de cerrar sesiÃ³n(SI/si)?:";
 					cin>>rpta;
 					if(rpta == "SI" || rpta == "si")
 					{
@@ -340,7 +404,7 @@ void adicionarVendedores()
 		for (int i = 0; i < 1; i++) {
 			cod = 100000 + (rand() % 999999);
 		}
-		gotoxy(50,6);cout<<"La contraseña generada es:";
+		gotoxy(50,6);cout<<"La contraseÃ±a generada es:";
 		gotoxy(50,7);cout<<cod<<endl;
 		cin.ignore();
 		
@@ -426,7 +490,7 @@ void modificarVendedores()
     }
     else
     {
-        gotoxy(45,16);cout<<"**** No se modificó el registro *****";
+        gotoxy(45,16);cout<<"**** No se modificÃ³ el registro *****";
         gotoxy(40,18);system("pause");
         menuDeOpciones();
     }
@@ -458,4 +522,3 @@ void buscarVendedor()
         menuDeOpciones();
     }
     gotoxy(30,14);system("pause");
-}
