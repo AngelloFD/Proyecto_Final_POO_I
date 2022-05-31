@@ -1,21 +1,23 @@
 #include<iostream>
 #include<vector>
 #include<cstring>
-#include<string>
 #include<fstream>
-#include<time.h>
 #include<stdlib.h>
+#include<string.h>
+#include <time.h>
 #include<windows.h>
-#include<conio.h>
+#include<locale.h>
 #include"vendedorVector.h"
-
 using namespace std;
 
 VendedorVector vendedorVector;
 
+void	tipoDeUsuario();
+void	inicio();
+void 	inicioAdmin();
 void	loginUsuario();
-void 	menuDeOpciones();
 void	recuperarCuenta();
+void 	menuDeOpciones();
 void 	adicionarVendedores();
 void 	eliminarVendedores();
 void	modificarVendedores();
@@ -23,35 +25,90 @@ void	buscarVendedor();
 void	listarVendedores();
 	void gotoxy(int, int);
 int main()
+{	
+setlocale(LC_CTYPE, "Spanish");
+
+tipoDeUsuario();
+}
+
+void tipoDeUsuario()
 {
+	int rpta;
+	string admin;
+	string vendedor;
+	gotoxy(30,8);cout<<"******************** Bienvenido, Cajero ********************"<<endl;
+	gotoxy(50,10);cout<<"[1]. Usuario(VENDEDOR)"<<endl;
+	gotoxy(50,12);cout<<"[2]. Admin"<<endl;
+	gotoxy(50,14);cout<<"Ingresa tu opcion:";
+	cin>>rpta;
 	
+	switch(rpta)
+	{
+		case 1:
+			system("cls");
+			inicio();
+			gotoxy(50,10);cout<<"---FALTA COMPLETAR CON CLIENTES----";
+			//FALTA CLIENTES
+			break;
+			
+		case 2:
+			system("cls");
+			inicioAdmin();
+			break;
+	}
 	
+}
+
+void inicioAdmin()
+{
+	string cod = "ADMIN";
+	string nom = "ADMIN";	
+		
+	gotoxy(30,8); cout<<"******************** Bienvenido, Cajero ********************"<<endl;
+	gotoxy(50,10);cout<<" Ingrese su contraseña:";
+	cin>>cod;
+	gotoxy(50,12);cout<<" Ingrese su nombre:";
+	cin>>nom;
+	
+	if(cod == "ADMIN" && nom == "ADMIN")
+	{
+		system("cls");
+		menuDeOpciones();
+	}
+	else
+	{
+		cout<<"No tienes permiso de administrador";
+		system("pause");
+		tipoDeUsuario();
+	}
+}
+
+
+void inicio()
+{
 	int choice;
 //	system("COLOR 80");
 	
 	gotoxy(30,8); cout<<"******************** Bienvenido, Cajero ********************"<<endl;
 	gotoxy(50,10);cout<<"[1]. Ingresar"<<endl;
-	gotoxy(50,12);cout<<"[2]. Registrar"<<endl;
-	gotoxy(50,14);cout<<"[3]. Recuperar contraseña"<<endl;
-	gotoxy(50,16);cout<<"Ingresa tu opcion: ";
+	gotoxy(50,12);cout<<"[2]. Recuperar contraseña"<<endl;
+	gotoxy(50,14);cout<<"Ingresa tu opcion:";
 	cin>>choice;
+	
 	switch(choice)
 	{
 		case 1:
 			loginUsuario();
 			break;
+		
 		case 2:
-			
-			adicionarVendedores();
-			break;
-
-		case 3:
 			recuperarCuenta();
 			break;
+		
+		default:cout<<"Ingrese una opcion correcta[1-2]"<<endl;
 			
-	}
+	}	
 	
-
 }
 
 void loginUsuario()
@@ -74,7 +131,6 @@ void loginUsuario()
 		
 		ifstream fe("alumnos.csv", ios::in);
 			
-			
 		while(!fe.eof()){
 				for( i=0;i<vendedorVector.rows();i++)
 	{
@@ -91,7 +147,8 @@ void loginUsuario()
 		gotoxy(45,12);	cout<<"Presionar enter para continuar..."<<endl;
 		system("pause");
 		system("cls");
-		menuDeOpciones();
+		//menuDeOpciones();
+		cout<<"COMPLETAR CON CLIENTES O VENTAS";
 		exit(0);
 			}
 		
@@ -99,8 +156,11 @@ void loginUsuario()
 	system("cls");
 	main();
 	}
-}
+	
 
+}
+	
+	
 void recuperarCuenta()
 {
 	int opcion;
@@ -110,20 +170,22 @@ void recuperarCuenta()
 	int c[100];
 	int i;
 	system("cls");
-	cout<<"1. Recuperar por nombre de usuario "<<endl;
-	cout<<"2. Recuperar po contraseña"<<endl;
-	cout<<"3. Volver al menu"<<endl;
-	cout<<"Ingresa tu opcion";
+	gotoxy(30,6);cout<<"======================== Recupera tu cuenta ========================";
+	gotoxy(50,8);cout<<"[1]. Recuperar por nombre de usuario "<<endl;
+	gotoxy(50,10);cout<<"[2]. Recuperar po contraseña"<<endl;
+	gotoxy(50,12);cout<<"[3]. Volver al menu"<<endl;
+	gotoxy(50,14);cout<<"Ingresa tu opcion:";
 	cin>>opcion;
 	
 	ifstream fe("alumnos.csv", ios::in);
-					while(!fe.eof()){
+	while(!fe.eof()){
 	
 	switch(opcion)
 	{
 		case 1:
 				system("cls");
-				cout<<"Ingresa tu nombre de usuario";
+				gotoxy(30,6);cout<<"======================== Recupera tu cuenta ========================";
+				gotoxy(50,8);cout<<"Ingresa tu nombre de usuario:";
 				cin>>nom;
 				
 			
@@ -135,15 +197,19 @@ void recuperarCuenta()
 				
 				if(nom ==  n[i])
 				{
-				cout<<"Tu contraseña es: "<< c[i]<<endl;
-				system("pause");
+				gotoxy(50,10);cout<<"Se encontró tu cuenta"<<endl;
+				gotoxy(45,12);system("pause");
+				system("cls");
+				gotoxy(30,6);cout<<"======================== Recupera tu cuenta ========================";
+				gotoxy(50,8);cout<<"Tu contraseña es: "<< c[i]<<endl;
+				gotoxy(45,10);system("pause");
 				system("cls");
 				main();
 				}
 			
 			}
-			cout<<"El usuario no existe"<<endl;
-			system("pause");
+			gotoxy(50,10);cout<<"El usuario no existe"<<endl;
+			gotoxy(45,12);system("pause");
 			system("cls");
 			recuperarCuenta();
 			
@@ -151,7 +217,8 @@ void recuperarCuenta()
 	
 		case 2:
 				system("cls");
-				cout<<"Ingresa tu contraseña";
+				gotoxy(30,6);cout<<"======================== Recupera tu cuenta ========================";
+				gotoxy(50,8);cout<<"Ingresa tu contraseña:";
 				cin>>cod;
 			
 				for( i=0;i<vendedorVector.rows();i++)
@@ -162,27 +229,33 @@ void recuperarCuenta()
 				
 				if(cod ==  c[i])
 				{
-				cout<<"Tu usuario es: "<< n[i]<<endl;
-				system("pause");
+				gotoxy(50,10);cout<<"Se encontró tu cuenta"<<endl;
+				gotoxy(45,12);system("pause");
+				system("cls");
+				gotoxy(30,6);cout<<"======================== Recupera tu cuenta ========================";
+				gotoxy(50,8);cout<<"Tu usuario es: "<< n[i]<<endl;
+				gotoxy(45,10);system("pause");
 				system("cls");
 				main();
 				}
 			}
-			cout<<"El usuario no existe"<<endl;
-			system("pause");
+			gotoxy(50,10);cout<<"El usuario no existe"<<endl;
+			gotoxy(45,12);system("pause");
 			system("cls");
 			recuperarCuenta();
 			
 		case 3:
-				system("pause");
-				system("cls");
-				main();	
+			gotoxy(30,6);cout<<"======================== Recupera tu cuenta ========================";
+			gotoxy(50,8);system("pause");
+			system("cls");
+			main();		
 			
+		default:cout<<"Ingrese una opcion correcta[1-3]"<<endl;
 		}		
-}
+	}
 }
 
-
+//Cambiar la posición
 void gotoxy(int x, int y)
 	{
 		HANDLE hcon;
@@ -192,40 +265,61 @@ void gotoxy(int x, int y)
 		dwPos.Y= y;
 		SetConsoleCursorPosition(hcon,dwPos);
 	}
+	
+	
 void menuDeOpciones()
 {
-	//Declarar Variables
 	int opt;
+	string rpta;
 	do
 	{
-		cout<<"MENU DE REGISTRO DE VENDEDORES\n";
-		cout<<"Ingresar Nuevos Vendedores	[1]\n";
-		cout<<"Eliminar Nuevos Vendedores	[2]\n";
-		cout<<"Modificar Nuevos Vendedores	[3]\n";
-		cout<<"Buscar Nuevos Vendedores		[4]\n";
-		cout<<"Listar Vendedores			[5]\n";
-		cout<<"Cerrar sesión				[6]\n";
-		cout<<"Salir						[7]\n";
-		cout<<"Ingrese una opcion[1-7]:";
+		gotoxy(30,6); cout<<"================== MENU DE REGISTRO DE VENDEDORES ==================\n";
+		gotoxy(30,8); cout<<"[1].Ingresar Nuevos Vendedores\n";
+		gotoxy(30,10);cout<<"[2].Eliminar Nuevos Vendedores\n";
+		gotoxy(30,12);cout<<"[3].Modificar Nuevos Vendedores\n";
+		gotoxy(30,14);cout<<"[4].Buscar Nuevos Vendedores\n";
+		gotoxy(30,16);cout<<"[5].Listar Vendedores\n";
+		gotoxy(30,18);cout<<"[6].Cerrar sesión\n";
+		gotoxy(30,20);cout<<"[7].Salir\n";
+		gotoxy(30,22);cout<<"Ingrese una opcion[1-7]:";
 		cin>>opt;
 		switch(opt)
 		{
 			case 1:	system("cls");
 					adicionarVendedores();
 					break;
-			case 2:system("cls");eliminarVendedores();break;
-			case 3:system("cls");modificarVendedores();break;
-			case 4:system("cls");buscarVendedor();break;
+			case 2:system("cls");
+					eliminarVendedores();
+					break;
+			case 3:system("cls");
+					modificarVendedores();
+					break;
+			case 4:system("cls");
+					buscarVendedor();
+					break;
 			case 5:	system("cls");
 					listarVendedores();
 					break;
 			case 6: system("cls");
-					main();
+					gotoxy(30,6); cout<<"================== MENU DE REGISTRO DE VENDEDORES ==================\n";
+					gotoxy(45,8);cout<<"¿Esta seguro de cerrar sesión(SI/si)?:";
+					cin>>rpta;
+					if(rpta == "SI" || rpta == "si")
+					{
+					system("cls");
+					tipoDeUsuario();
+					}
+					else
+					{
+					system("cls");
+					}
 					break;
-			case 7:	system("cls");cout<<"###########Gracias por tu compra##########\n";
+					system("cls");
+			case 7:	system("cls");
+					gotoxy(30,6);cout<<"************************ Vuelve Pronto !!! ************************\n";
 					exit(0);
 					break;
-			default:cout<<"Ingrese una opcion correcta[1-6]"<<endl;
+			default:cout<<"Ingrese una opcion correcta[1-7]"<<endl;
 		}
 	}
 	while(opt!=7);
@@ -234,35 +328,36 @@ void menuDeOpciones()
 
 void adicionarVendedores()
 {
-	//Crear Variables
 	int 	cod;
 	string 	nom,
 			rpta;
-	//Crear el Objeto de la clase alumno
 	do
 	{	
-		//Entrada de datos
+	system("cls");
+	gotoxy(30,6); cout<<"==================== INGRESAR NUEVOS VENDEDORES ====================\n";
+	
 	srand(time(0));
 		for (int i = 0; i < 1; i++) {
 			cod = 100000 + (rand() % 999999);
 		}
-		cout<<"La contraseña generada es:";
-		cout<<cod<<endl;
+		gotoxy(50,6);cout<<"La contraseña generada es:";
+		gotoxy(50,7);cout<<cod<<endl;
+		cin.ignore();
 		
-		cout<<"Ingresar Nombre:";
+		gotoxy(50,9);cout<<"Ingresar Nombre:";
 		getline(cin,nom);
 		
-		Vendedor vendedor;/*Crear el Objeto*/
+		Vendedor vendedor;
 		
 		vendedor.setCodigo(cod);
 		vendedor.setNombre(nom);
 		
-		vendedorVector.add(vendedor);//Agregar el Objeto al vector dinamico
+		vendedorVector.add(vendedor);
 		
 		vendedorVector.grabarEnArchivo(vendedor);
-		cout<<"Para continuar pulsar(SI o si):";
+		gotoxy(50,11);cout<<"Para continuar pulsar(SI o si):";
 		cin>>rpta;
-		system("cls");//Limpiar
+		system("cls");
 	}
 	while(rpta=="SI" || rpta=="si");
 	main();
@@ -271,6 +366,7 @@ void adicionarVendedores()
 
 void listarVendedores()
 {
+	cout<<"======================= LISTA DE VENDEDORES =======================\n";
 	for(int i=0;i<vendedorVector.rows();i++)
 	{
 		cout<<"Codigo:"<<vendedorVector.get(i).getCodigo()<<"\n";	
@@ -284,66 +380,82 @@ void listarVendedores()
 void eliminarVendedores()
 {
 	int cod;
-    cout<<"Ingresar el codigo del vendedor a eliminar:";
+	gotoxy(30,6);cout<<"======================= ELIMINAR VENDEDOR(ES) =======================\n";
+   	gotoxy(50,8); cout<<"Ingresar el codigo del vendedor a eliminar:";
     cin>>cod;
+    
     Vendedor SellerDelete = vendedorVector.buscarPorCodigo(cod);
     vendedorVector.remove(SellerDelete);
-    cout<<"==Registro eliminado satisfactoriamente==";
+    
+    gotoxy(50,10);system("pause");
+    gotoxy(40,12);cout<<"******** Vendedor Eliminado Satisfactoriamente ********";
 
-    //ACTUALIZAR ARCHIVO ( FALTA COMPLETAR )-----
+    //ACTUALIZAR ARCHIVO 
     vendedorVector.grabarModificarEliminarArchivo();
-    
-    
 }
+
 void modificarVendedores()
 {
     int code;
-    cout<<"Ingresar el codigo del vendedor:";
+    gotoxy(30,6);cout<<"======================= MODIFICAR VENDEDOR(ES) =======================\n";
+    gotoxy(50,8);cout<<"Ingresar el codigo del vendedor:";
     cin>>code;
+    
     Vendedor vendModificar = vendedorVector.buscarPorCodigo(code);
-
-    cout<<"Registro encontrado"<<endl;
-    cout<<"Codigo:"<<vendModificar.getCodigo()<<endl;
-    cout<<"Nombre:"<<vendModificar.getNombre()<<endl;
+    
+	system("pause");
+	system("cls");
+	gotoxy(30,6);cout<<"======================= MODIFICAR VENDEDOR(ES) =======================\n";
+    gotoxy(50,8);cout<<"**** Registro encontrado ****"<<endl;
+    gotoxy(50,10);cout<<"Codigo:"<<vendModificar.getCodigo()<<endl;
+    gotoxy(50,12);cout<<"Nombre:"<<vendModificar.getNombre()<<endl;
     cin.ignore();
-
+	system("pause");
     string nomModificado;
-    cout<<"Modificar campos\n";
+    cout<<endl;
+    gotoxy(50,14);cout<<"Modificar Vendedor:";
     getline(cin,nomModificado);
     bool estado = vendedorVector.modificar(vendModificar,nomModificado);
 
     if(estado = true)
     {
-        cout<<"Registro modificado satisfactoriamente";
-        //Grabar archivo modificado( Falta completar)------
-        vendedorVector.grabarModificarEliminarArchivo();
+    	
+        gotoxy(40,16);cout<<"**** Registro modificado satisfactoriamente ****";
+       
+        vendedorVector.grabarModificarEliminarArchivo();//GRABADO
     }
     else
     {
-        cout<<"No se modifico el registro";
-        system("pause");
+        gotoxy(45,16);cout<<"**** No se modificó el registro *****";
+        gotoxy(40,18);system("pause");
         menuDeOpciones();
     }
-    system("pause");
+    gotoxy(40,18);system("pause");
     system("cls");
 }
 void buscarVendedor()
 {
 	int code;
-    cout<<"Ingresar el codigo del vendedor:";
+	gotoxy(30,6);cout<<"======================= BUSCAR AL VENDEDOR =======================\n";
+    gotoxy(30,8);cout<<"Ingresar el codigo del vendedor:";
     cin>>code;
     Vendedor vend = vendedorVector.buscarPorCodigo(code);
+    gotoxy(30,10); system("pause");
     if(vend.getNombre() != "Error")
-    {
-    cout<<"Registro encontrado"<<endl;
-    cout<<"Codigo:"<<vend.getCodigo()<<endl;
-    cout<<"Nombre:"<<vend.getNombre()<<endl;
+    {	
+   	 	system("cls");
+   	 	gotoxy(30,6);cout<<"======================= BUSCAR AL VENDEDOR =======================\n";
+    	gotoxy(30,8);cout<<"**** Registro encontrado ****"<<endl;
+    	gotoxy(30,10);cout<<"Codigo:"<<vend.getCodigo()<<endl;
+    	gotoxy(30,12);cout<<"Nombre:"<<vend.getNombre()<<endl;
     }
     else
     {
-        cout<<"No se encontro el registro\n";
-        system("pause");
+    	system("cls");
+   	 	gotoxy(30,6);cout<<"======================= BUSCAR AL VENDEDOR =======================\n";
+        gotoxy(30,8);cout<<"No se encontro el registro\n";
+        gotoxy(30,10);system("pause");
         menuDeOpciones();
     }
-    system("pause");
+    gotoxy(30,14);system("pause");
 }

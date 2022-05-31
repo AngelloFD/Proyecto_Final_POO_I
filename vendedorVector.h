@@ -22,12 +22,12 @@ class VendedorVector
 			vector<Vendedor> vectorVendedor;
 		}
 		
-		void add(Vendedor obj)/*Agrgar Objetos al Vector*/
+		void add(Vendedor obj)
 		{
 			vectorVendedor.push_back(obj);
 		}
 		
-		Vendedor get(int pos)/*entregar el objeto actual, según la posicion pasada como parámetro*/
+		Vendedor get(int pos)
 		{
 			return vectorVendedor[pos];
 		}
