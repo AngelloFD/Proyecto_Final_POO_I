@@ -141,6 +141,15 @@
   <ItemGroup>
     <ClCompile Include="Proyecto_Final.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CLIENTES.h" />
+    <ClInclude Include="CLIENTES_V.h" />
+    <ClInclude Include="PRODUCTOS.h" />
+    <ClInclude Include="VENDEDORES.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DATA_CLIENTES.csv" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
