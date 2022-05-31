@@ -139,12 +139,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Proyectoproductos - todavía no corre aa\main.cpp" />
     <ClCompile Include="Proyecto_Final.cpp" />
+    <ClCompile Include="Reg_Vendedores\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLIENTES.h" />
     <ClInclude Include="CLIENTES_V.h" />
     <ClInclude Include="PRODUCTOS.h" />
+    <ClInclude Include="Proyectoproductos - todavía no corre aa\prevector.h" />
+    <ClInclude Include="Proyectoproductos - todavía no corre aa\vector.h" />
+    <ClInclude Include="Reg_Vendedores\vendedor.h" />
+    <ClInclude Include="Reg_Vendedores\vendedorVector.h" />
     <ClInclude Include="VENDEDORES.h" />
   </ItemGroup>
   <ItemGroup>
