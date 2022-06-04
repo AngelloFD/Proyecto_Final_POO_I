@@ -25,7 +25,7 @@ void MENU_CLIENTES() {
 			do {
 				Beep(480, 200);
 				cliente_vector.vector_add(*cliente->cliente_agregar());
-				std::cout << "¿Desea continuar? (S/N)\n";
+				std::cout << "Desea continuar? (S/N)\n";
 				std::cin >> rpta_1;
 			} while (std::toupper(rpta_1) == 'S');
 			break;
@@ -34,7 +34,7 @@ void MENU_CLIENTES() {
 			do {
 				Beep(480, 200);
 				cliente_vector.cliente_modificar();
-				std::cout << "¿Desea continuar? (S/N)\n";
+				std::cout << "Desea continuar? (S/N)\n";
 				std::cin >> rpta_2;
 			} while (std::toupper(rpta_2) == 'S');
 			break;
