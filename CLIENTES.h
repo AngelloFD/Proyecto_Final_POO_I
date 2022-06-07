@@ -19,14 +19,14 @@ private:
 		codigo[9] = '\0';
 		return codigo;
 	}
+	char* codigo = generar_codigo();
 
-	std::string nombre;
-	std::string apellido;
-	char sexo;
-	char tarjeta_ventaPlus;
-	char registrado_web;
+	std::string nombre = "NULL";
+	std::string apellido = "NULL";
+	char tarjeta_ventaPlus = '0';
+	char registrado_web = '0';
 
-	char correo[101];	/*TODO: CIFRAR*/
+	char correo[101] = "";	/*TODO: CIFRAR*/
 	char* generar_correo() {
 		srand(time(0));
 		if (registrado_web == 'S') {
@@ -42,8 +42,6 @@ private:
 		return err;
 	}
 
-	/*TODO: CIFRAR
-			GUARDAR EN ARCHIVO BINARIO*/
 	char* generar_contrasena() {
 		if (registrado_web == 'S') {
 			char letras_numeros[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -65,9 +63,9 @@ private:
 		err[1] = '\0';
 		return err;
 	}
+	char* contrasena = generar_contrasena(); /*TODO: CIFRAR, GUARDAR EN ARCHIVO BINARIO*/
 
-	char* generar_celular() {	/*TODO: CIFRAR
-										GUARDAR EN ARCHIVO BINARIO*/
+	char* generar_celular() {
 		if (registrado_web == 'S') {
 			char numeros[] = "0123456789";
 			char* celular = new char[10];
@@ -87,16 +85,16 @@ private:
 		err[1] = '\0';
 		return err;
 	}
+	char* celular = generar_celular(); /*TODO: CIFRAR, GUARDAR EN ARCHIVO BINARIO*/
 
-	/*TODO: CIFRAR
-			GUARDAR EN ARCHIVO BINARIO*/
+	int DNI = 0; /*TODO: CIFRAR, GUARDAR EN ARCHIVO BINARIO*/
 	int generar_DNI() {
-		int DNI = rand() % (99999999 - 10000000) + 10000000;
+		DNI = rand() % (99999999 - 10000000) + 10000000;
 		return DNI;
-		
+
 	}
-	
-	int monto_consumido_semanal; //Se interlazará con venta
+
+	int monto_consumido_semanal = 0; //Se interlazará con venta
 
 	// Auxiliares
 	bool check_chars(char source, char check1, char check2) {
@@ -107,7 +105,7 @@ private:
 	}
 
 	bool check_strings(std::string source) {
-		char especiales[] = {'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '-', '=', '{', '}', '[', ']', '|', '\\', ':', ';', '"', '\'', '<', '>', ',', '.', '?', '/', '~', '`', ' ', '°'};
+		char especiales[] = { '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '-', '=', '{', '}', '[', ']', '|', '\\', ':', ';', '"', '\'', '<', '>', ',', '.', '?', '/', '~', '`', ' ', '°' };
 		for (char c : source) {
 			if (std::isdigit(c)) {
 				return true;
@@ -122,26 +120,22 @@ private:
 	}
 
 public:
-	
+
 	Cliente() {};
 
 	//Setters
 	void set_nombre(std::string nombre) {
 		this->nombre = nombre;
 	}
-	
+
 	void set_apellido(std::string apellido) {
 		this->apellido = apellido;
 	}
 
-	void set_sexo(char sexo) {
-		this->sexo = sexo;
-	}
-	
 	void set_tarjeta(char tj_vp) {
 		tarjeta_ventaPlus = tj_vp;
 	}
-	
+
 	void set_registrado(char registrado_web) {
 		this->registrado_web = registrado_web;
 	}
@@ -151,27 +145,38 @@ public:
 	}
 
 	//Getters
+	char* get_codigo() { return codigo; }
+
 	std::string get_nombre() { return nombre; }
-	
+
 	std::string get_apellido() { return apellido; }
 
-	char get_sexo() { return sexo; }
-	
 	char get_tarjeta() { return tarjeta_ventaPlus; }
 
 	char get_registrado_web() { return registrado_web; }
 
-	char* get_correo() { return generar_correo(); }
-	
-	char* get_contrasena() { return generar_contrasena(); }
+	char* get_correo() { return correo; }
 
-	char* get_celular() { return generar_celular(); }
-	
+	char* get_contrasena() { return contrasena; }
+
+	char* get_celular() { return celular; }
+
 	int get_DNI() { return generar_DNI(); }
 
 	int get_monto_semanal() { return monto_consumido_semanal; }
-	
-	char* get_codigo() { return generar_codigo(); }
+
+	//Metodos aux
+	void imprimir_cliente() {
+		std::cout << "Nombre: " << get_nombre() << '\n';
+		std::cout << "Apellido: " << get_apellido() << '\n';
+		std::cout << "Tarjeta: " << get_tarjeta() << '\n';
+		std::cout << "Registrado: " << get_registrado_web() << '\n';
+		std::cout << "Correo: " << get_correo() << '\n';
+		std::cout << "Contrasena: " << get_contrasena() << '\n';
+		std::cout << "Celular: " << get_celular() << '\n';
+		std::cout << "DNI: " << get_DNI() << '\n';
+		std::cout << "Monto consumido semanal: " << get_monto_semanal() << '\n';
+	}
 
 	// Metodos main
 	int pantalla_cliente() {
@@ -198,8 +203,8 @@ public:
 
 	Cliente* cliente_agregar() {
 		Cliente* cliente = new Cliente();
-		std::string nombre; std::string apellido; char sexo; int DNI = 0; char tarjeta_ventaPlus; char registrado_web;
-		
+		std::string nombre; std::string apellido; int DNI = 0; char tarjeta_ventaPlus; char registrado_web;
+
 
 		std::cout << "Ingrese el nombre del cliente: ";
 		std::cin >> nombre;
@@ -209,7 +214,7 @@ public:
 			std::cin >> nombre;
 		}
 		Beep(480, 200);
-		
+
 		std::cout << "Ingrese el apellido del cliente: ";
 		std::cin >> apellido;
 		while (apellido.length() > 50 || apellido.length() == 0 || check_strings(apellido)) {
@@ -219,17 +224,6 @@ public:
 		}
 		Beep(480, 200);
 
-		std::cout << "Ingrese el sexo del cliente (M/F): ";
-		std::cin >> sexo;
-		sexo = std::toupper(sexo);
-		while (!check_chars(sexo, 'M', 'F') || std::isblank(sexo) || std::isdigit(sexo)) {
-			Beep(200, 200);
-			std::cout << "Ingrese el sexo del cliente (M/F): ";
-			std::cin >> sexo;
-			sexo = std::toupper(sexo);
-		}
-		Beep(480, 200);
-		
 		std::cout << "El cliente cuenta con la tarjeta VENTA+ (S/N): ";
 		std::cin >> tarjeta_ventaPlus;
 		tarjeta_ventaPlus = std::toupper(tarjeta_ventaPlus);
@@ -252,7 +246,7 @@ public:
 			}
 			Beep(480, 200);
 		}
-		
+
 		std::cout << "El cliente esta registrado en la pagina web (S/N): ";
 		std::cin >> registrado_web;
 		registrado_web = std::toupper(registrado_web);
@@ -265,7 +259,6 @@ public:
 
 		cliente->set_nombre(nombre);
 		cliente->set_apellido(apellido);
-		cliente->set_sexo(sexo);
 		cliente->set_tarjeta(tarjeta_ventaPlus);
 		cliente->set_registrado(registrado_web);
 
