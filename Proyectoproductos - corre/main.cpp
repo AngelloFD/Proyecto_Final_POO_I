@@ -9,7 +9,6 @@ Productosvector vectorpro;
 
 void menuopcionesadmin();
 void insertarpalabras();
-void listarproductos();
 
 int main()
 {
@@ -35,8 +34,18 @@ void menuopcionesadmin()
 			system("cls");
 			break;
 		case 2:
-			system("cls");
-			listarproductos();
+			cout<<"NO IMPLEMENTADO!"<<endl;
+			cout<<"Deseas volver al menu?( SI O NO )"<<endl;
+			cin>>rpta;
+			if (rpta == "SI")
+			{
+				system("cls");
+				menuopcionesadmin();
+			} 
+			else
+			{
+				exit(0);
+			}
 			break;
 		default:
 			cout<<"Ingresa numero valido!"<<endl;
@@ -58,16 +67,14 @@ void insertarpalabras()
 {
 	string producto;
 	string rpta;
-	int codigo;
 	int precio;
 	system("cls");
 	cout<<"ADMIN, agrege los productos"<<endl;
 	do
 	{
-		cout<<"(ROWS TIENE QUE CARGAR EL ARCHIVO ACTUAL //soy tonto, me olvide poner la funcion para cargar)"vectorpro.rows()<<endl;
-		codigo = vectorpro.getCorrelativo();
-		cin.ignore();
-		cout<<codigo<<" Ingresa producto: "<<endl;
+		producto = vectorpro.getCorrelativo();
+
+		cout<<"Ingresa producto: "<<endl;
 		cin>>producto;
 		cin.ignore();
 		cout<<"Ingresar precio: "<<endl;
@@ -75,7 +82,6 @@ void insertarpalabras()
 		
 		productos pro;
 		
-		pro.setcodigo(codigo);
 		pro.setproducto(producto);
 		pro.setprecio(precio);
 		
@@ -89,15 +95,4 @@ void insertarpalabras()
 	system("cls");
 	menuopcionesadmin();
 	
-}
-
-void listarproductos()
-{
-	vectorpro.	
-	for ( int i = 0; i<vectorpro.rows(); i++)
-	{
-		cout<<"Codigo: "<<vectorpro.get(i).getcodigo()<<"-"<<" Producto: "<<vectorpro.get(i).getproducto()<<"-"<<" Precio: "<<vectorpro.get(i).getprecio()<<endl;	
-	}
-	system("pause");
-	system("cls");
 }
