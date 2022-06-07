@@ -23,7 +23,7 @@ class Productosvector
 			}
 			else
 			{
-				return vectorproductos[vectorproductos.size()-1].getcodigo()+1;
+				return vectorproductos[vectorproductos.size()-1].getcantidad()+1;
 			}
 		}
 		productos get(int pos) 
@@ -38,7 +38,7 @@ class Productosvector
 		{
 			for(int i=0;i<rows();i++)
 			{
-				if(obj.getcodigo() == get(i).getcodigo())
+				if(obj.getproducto() == get(i).getproducto())
 				{
 					return i;
 				}
@@ -57,7 +57,7 @@ class Productosvector
 				archivoproducto.open("alumnos.csv",ios::app);
 				if(archivoproducto.is_open())
 				{
-					archivoproducto<<probj.getcodigo()<<";"<<probj.getproducto()<<";"<<probj.getprecio()<<";"<<endl;
+					archivoproducto<<probj.getproducto()<<";"<<probj.getprecio()<<";"<<endl;
 					archivoproducto.close();
 				}
 			}			
@@ -76,7 +76,7 @@ class Productosvector
 				{
 					for (productos pro : vectorproductos)
 					{
-						archivoproducto<<pro.getcodigo()<<";"<<pro.getproducto()<<";"<<pro.getprecio()<<";"<<endl;
+						archivoproducto<< pro.getproducto()<<";"<<pro.getprecio()<<";"<<endl;
 						
 					}
 					archivoproducto.close();

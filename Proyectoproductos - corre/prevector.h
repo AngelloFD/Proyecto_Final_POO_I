@@ -9,17 +9,16 @@ class productos
 		int cantidad;
 		float precio,descuento_fijo;
 		bool admin;
-		int codigo;
 	public:
 		//constructor
-		productos(string prod, int cant, float pre, float desf, bool admin, int cod)
+		productos(string prod, int cant, float pre, float desf, bool admin)
 		{
 			producto = prod;
 			cantidad = cant;
+	
 			precio = pre;
 			descuento_fijo = desf;
 			this->admin = admin;
-			codigo = cod;
 		}
 		productos()
 		{
@@ -45,10 +44,6 @@ class productos
 		{
 			this->admin = admin;
 		}
-		void setcodigo(int cod)
-		{
-			codigo = cod;
-		}
 		//gets (scando de private)
 		string getproducto()
 		{
@@ -70,10 +65,6 @@ class productos
 		bool getadmin()
 		{
 			return admin;
-		}
-		int getcodigo()
-		{
-			return codigo;
 		}
 		//operaciones
 };
