@@ -1,25 +1,29 @@
-#include<iostream>
+#include <iostream>
 
 #include "CLIENTES_V.h"
 
 CLIENTES_V cliente_vector;
 
-void MENU_CLIENTES() {
+void MENU_CLIENTES()
+{
 	Beep(480, 200);
 	system("cls");
 
 	Cliente cliente;
 
 	int rpta;
-	do {
+	do
+	{
 		system("cls");
 		rpta = cliente.pantalla_cliente();
-		Cliente* cliente = new Cliente();
+		Cliente *cliente = new Cliente();
 
-		switch (rpta) {
+		switch (rpta)
+		{
 		case 1:
 			char rpta_1;
-			do {
+			do
+			{
 				system("cls");
 				Beep(480, 200);
 				cliente_vector.vector_add(*cliente->cliente_agregar());
@@ -29,7 +33,8 @@ void MENU_CLIENTES() {
 			break;
 		case 2:
 			char rpta_2;
-			do {
+			do
+			{
 				system("cls");
 				Beep(480, 200);
 				cliente_vector.cliente_modificar();
@@ -38,10 +43,19 @@ void MENU_CLIENTES() {
 			} while (std::toupper(rpta_2) == 'S');
 			break;
 		case 3:
-
+			char rpta_3;
+			do
+			{
+				system("cls");
+				Beep(480, 200);
+				cliente_vector.cliente_eliminar();
+				std::cout << "Desea continuar? (S/N)\n";
+				std::cin >> rpta_3;
+			} while (std::toupper(rpta_3) == 'S');
 		case 4:
 			char rpta_4;
-			do {
+			do
+			{
 				system("cls");
 				Beep(480, 200);
 				cliente_vector.cliente_consultar();
@@ -55,7 +69,8 @@ void MENU_CLIENTES() {
 		}
 
 		std::cout << "Regresando al inicio";
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++)
+		{
 			std::cout << ".";
 			Sleep(100);
 		}
@@ -64,6 +79,7 @@ void MENU_CLIENTES() {
 	/*VOLVER A LA PANTALLA DE INICIO*/
 }
 
-int main() {
+int main()
+{
 	MENU_CLIENTES();
 }

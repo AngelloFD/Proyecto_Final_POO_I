@@ -1,5 +1,6 @@
 .vs
 x64
+.vscode
 *.exe
 *.vcxproj
 *.vcxproj.filters
