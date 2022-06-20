@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <Windows.h>
+#include <string>
 
 #include "CLIENTES.h"
 
@@ -18,9 +19,9 @@ private:
 	{
 		if (source == check1 || source == check2)
 		{
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	bool check_strings(std::string source)
@@ -49,10 +50,10 @@ private:
 		{
 			if (strchr(str.c_str(), arr[i]) != NULL)
 			{ // c_str convierte una string en un char*
-				return true;
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	Cliente get(int pos)
@@ -66,7 +67,7 @@ private:
 		{
 			return;
 		}
-		int pivot = vect.size() / 2;
+		size_t pivot = vect.size() / 2;
 		std::vector<Cliente> left;
 		std::vector<Cliente> right;
 		for (int i = 0; i < vect.size(); i++)
@@ -97,7 +98,7 @@ private:
 	Cliente busqueda_nombre(std::string b_nomb, std::vector<Cliente> vect)
 	{
 		int inicio = 0;
-		int fin = vect.size() - 1;
+		size_t fin = vect.size() - 1;
 		int medio;
 		while (inicio <= fin)
 		{
@@ -121,7 +122,7 @@ private:
 	Cliente busqueda_apellido(std::string b_ape, std::vector<Cliente> vect)
 	{
 		int inicio = 0;
-		int fin = vect.size() - 1;
+		size_t fin = vect.size() - 1;
 		int medio;
 		while (inicio <= fin)
 		{
@@ -145,16 +146,16 @@ private:
 	Cliente busqueda_tarjeta(char b_trj, std::vector<Cliente> vect)
 	{
 		int inicio = 0;
-		int fin = vect.size() - 1;
+		size_t fin = vect.size() - 1;
 		int medio;
 		while (inicio <= fin)
 		{
 			medio = (inicio + fin) / 2;
-			if (vect[medio].get_tarjeta() == b_trj)
+			if (vect[medio].get_tarjeta_ventaPlus() == b_trj)
 			{
 				return vect[medio];
 			}
-			else if (vect[medio].get_tarjeta() < b_trj)
+			else if (vect[medio].get_tarjeta_ventaPlus() < b_trj)
 			{
 				inicio = medio + 1;
 			}
@@ -169,7 +170,7 @@ private:
 	Cliente busqueda_registro(char b_reg, std::vector<Cliente> vect)
 	{
 		int inicio = 0;
-		int fin = vect.size() - 1;
+		size_t fin = vect.size() - 1;
 		int medio;
 		while (inicio <= fin)
 		{
@@ -220,8 +221,94 @@ public:
 	}
 
 	// Metodos main
+	void archivo_grabar() {
+		try {
+			std::fstream archivo_cliente;
+			archivo_cliente.open("DATA_CLIENTES.csv", std::ios::app);
+			if (archivo_cliente.is_open()) {
+				for (int i = 0; i < rows(); i++) {
+					archivo_cliente << vector_cliente[i].get_codigo() << "," << vector_cliente[i].get_nombre() << "," << vector_cliente[i].get_apellido() << "," << vector_cliente[i].get_tarjeta_ventaPlus() << "," << vector_cliente[i].get_registrado_web() << '\n';
+				}
+				archivo_cliente.close();
+			}
+		}
+		catch (std::exception e) {
+			throw "Ocurrio un error al grabar en el registro";
+		}
+	}
+
+	void archivo_modificar() {
+		try
+		{
+			std::cout << "Modificando...";
+			std::fstream archivo_cliente;
+			archivo_cliente.open("DATA_CLIENTES.csv", std::ios::out);
+			if (archivo_cliente.is_open())
+			{
+				for (Cliente x : vector_cliente)
+				{
+					archivo_cliente << x.get_codigo() << "," << x.get_nombre() << "," << x.get_apellido() << "," << x.get_tarjeta_ventaPlus() << "," << x.get_registrado_web() << '\n';
+
+				}
+				archivo_cliente.close();
+			}
+		}
+		catch (std::exception e)
+		{
+			throw "Ocurrio un error al grabar en el archivo";
+		}
+	}
+
+	void archivo_cargar_vector() {
+		try
+		{
+			std::cout << "Cargando...";
+			int i;
+			size_t posi = 0;
+			std::string linea;
+			std::string temporal[4];
+			std::fstream archivo_cliente;
+			archivo_cliente.open("DATA_CLIENTES.csv", std::ios::in);
+			if (archivo_cliente.is_open()) {
+				while (!archivo_cliente.eof()) {
+					while (std::getline(archivo_cliente, linea)) {
+						i = 0;
+						while ((posi == linea.find(";")) != std::string::npos) {
+							temporal[i] = linea.substr(0, posi);
+							linea.erase(0, posi + 1);
+							i++;
+						}
+						Cliente cliente;
+						cliente.set_nombre(temporal[0]);
+						cliente.set_apellido(temporal[1]);
+						cliente.set_tarjeta_ventaPlus(std::stoi(temporal[2]));
+						cliente.set_registrado_web(std::stoi(temporal[3]));
+						vector_cliente.push_back(cliente);
+					}
+				}
+			}
+		}
+		catch (std::exception e)
+		{
+			throw "Ocurrio un error al leer el archivo";
+		}
+	}
+
 	void cliente_modificar()
 	{
+		if (rows() < 1)
+		{
+			Beep(200, 200);
+			std::cout << "No hay clientes registrados";
+			for (int i = 0; i < 3; i++)
+			{
+				std::cout << ".";
+				Sleep(100);
+			}
+			std::cout << '\n';
+			return;
+		}
+
 		int rpta_mod;
 		std::string dato_new;
 		std::string opc_mod;
@@ -237,30 +324,17 @@ public:
 		{
 			std::cout << ":: ";
 			std::cin >> opc_mod;
-			if (!contains_stringTochar(opc_mod, opciones) || opc_mod.size() > 1)
+			if (contains_stringTochar(opc_mod, opciones) || opc_mod.size() > 1)
 			{
 				Beep(200, 200);
 			}
-		} while (!contains_stringTochar(opc_mod, opciones) || opc_mod.size() > 1);
+		} while (contains_stringTochar(opc_mod, opciones) || opc_mod.size() > 1);
 		Beep(480, 200);
 
 		if (opc_mod[0] == '0')
 		{
 			Beep(480, 200);
 			std::cout << "Cancelando";
-			for (int i = 0; i < 3; i++)
-			{
-				std::cout << ".";
-				Sleep(100);
-			}
-			std::cout << '\n';
-			return;
-		}
-
-		if (rows() < 1)
-		{
-			Beep(200, 200);
-			std::cout << "No hay clientes registrados";
 			for (int i = 0; i < 3; i++)
 			{
 				std::cout << ".";
@@ -302,6 +376,7 @@ public:
 			}
 			Beep(480, 200);
 			vector_cliente[rpta_mod - 1].set_nombre(dato_new);
+			archivo_modificar();
 			break;
 		case '2':
 			while (dato_new.length() > 50 || dato_new.length() == 0 || check_strings(dato_new))
@@ -312,10 +387,11 @@ public:
 			}
 			Beep(480, 200);
 			vector_cliente[rpta_mod - 1].set_apellido(dato_new);
+			archivo_modificar();
 			break;
 		case '3':
 			dato_new[0] = std::toupper(dato_new[0]);
-			while (!check_chars(dato_new[0], 'S', 'N') || std::isblank(dato_new[0]) || std::isdigit(dato_new[0]))
+			while (check_chars(dato_new[0], 'S', 'N') || std::isblank(dato_new[0]) || std::isdigit(dato_new[0]))
 			{
 				Beep(200, 200);
 				std::cout << "Ingrese el nuevo dato: ";
@@ -323,11 +399,12 @@ public:
 				dato_new[0] = std::toupper(dato_new[0]);
 			}
 			Beep(480, 200);
-			vector_cliente[rpta_mod - 1].set_tarjeta(dato_new[0]);
+			vector_cliente[rpta_mod - 1].set_tarjeta_ventaPlus(dato_new[0]);
+			archivo_modificar();
 			break;
 		case '4':
 			dato_new[0] = std::toupper(dato_new[0]);
-			while (!check_chars(dato_new[0], 'S', 'N') || std::isblank(dato_new[0]) || std::isdigit(dato_new[0]))
+			while (check_chars(dato_new[0], 'S', 'N') || std::isblank(dato_new[0]) || std::isdigit(dato_new[0]))
 			{
 				Beep(200, 200);
 				std::cout << "Ingrese el nuevo dato: ";
@@ -335,7 +412,8 @@ public:
 				dato_new[0] = std::toupper(dato_new[0]);
 			}
 			Beep(480, 200);
-			vector_cliente[rpta_mod - 1].set_registrado(dato_new[0]);
+			vector_cliente[rpta_mod - 1].set_registrado_web(dato_new[0]);
+			archivo_modificar();
 			break;
 
 		default:
@@ -371,11 +449,11 @@ public:
 		{
 			std::cout << ":: ";
 			std::cin >> rpta_opc;
-			if (!contains_stringTochar(rpta_opc, opciones) || rpta_opc.size() > 1)
+			if (contains_stringTochar(rpta_opc, opciones) || rpta_opc.size() > 1)
 			{
 				Beep(200, 200);
 			}
-		} while (!contains_stringTochar(rpta_opc, opciones) || rpta_opc.size() > 1);
+		} while (contains_stringTochar(rpta_opc, opciones) || rpta_opc.size() > 1);
 		Beep(480, 200);
 
 		if (rpta_opc == "0")
@@ -470,11 +548,12 @@ public:
 		{
 			std::cout << ":: ";
 			std::cin >> rpta_eliminar;
-			if (rpta_eliminar < 1 || rpta_eliminar > rows())
-			{
+			if (rpta_eliminar < 1 || rpta_eliminar > rows() || std::cin.fail()) {
+				std::cin.clear();
+				std::cin.ignore(256, '\n');
 				Beep(200, 200);
 			}
-		} while (rpta_eliminar < 1 || rpta_eliminar > rows());
+		} while (rpta_eliminar < 1 || rpta_eliminar > rows() || std::cin.fail());
 		Beep(480, 200);
 
 		if (vector_cliente[rpta_eliminar - 1].get_codigo() == 0)
@@ -495,6 +574,8 @@ public:
 		{
 			vector_cliente.erase(vector_cliente.begin() + rpta_eliminar - 1);
 			std::cout << "Cliente eliminado\n";
+			archivo_modificar();
 		}
 	}
+
 };

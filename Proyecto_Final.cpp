@@ -6,6 +6,7 @@ CLIENTES_V cliente_vector;
 
 void MENU_CLIENTES()
 {
+	cliente_vector.archivo_cargar_vector();
 	Beep(480, 200);
 	system("cls");
 
@@ -27,6 +28,7 @@ void MENU_CLIENTES()
 				system("cls");
 				Beep(480, 200);
 				cliente_vector.vector_add(*cliente->cliente_agregar());
+				cliente_vector.archivo_grabar();
 				std::cout << "Desea continuar? (S/N)\n";
 				std::cin >> rpta_1;
 			} while (std::toupper(rpta_1) == 'S');
@@ -79,7 +81,7 @@ void MENU_CLIENTES()
 	/*VOLVER A LA PANTALLA DE INICIO*/
 }
 
-int main()
-{
+int main() {
+	srand(time(0));
 	MENU_CLIENTES();
 }
