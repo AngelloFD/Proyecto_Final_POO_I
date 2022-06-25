@@ -15,7 +15,7 @@ class Productosvector
 		Productosvector()
 		{
 			cargarDatosDelArchivoAlVector();
-			vector<productos> vectorAlumno;
+			vector<productos> vectorproductos;
 		}
 		int getCorrelativo()
 		{
@@ -37,13 +37,16 @@ class Productosvector
 		{
 			return vectorproductos[pos];
 		}
-		
+		productos at( int pos )
+		{
+			return vectorproductos.at(pos);
+		}
 		int rows() //regresa el tamaño actual del vector
 		{
 			return vectorproductos.size();
 		}
 		
-		int getPostArray(productos obj)
+		int getPostArray(productos obj) 
 		{
 			for(int i=0;i<rows();i++)
 			{
@@ -55,9 +58,9 @@ class Productosvector
 			return -1;
 		}
 		
-		void eliminar(productos obj) //elimina los archivos
+		void eliminar(productos pro) //elimina los archivos
 		{
-			vectorproductos.erase(vectorproductos.begin() + getPostArray(obj));	
+			vectorproductos.erase(vectorproductos.begin() + getPostArray(pro));	
 		}
 		
 		bool modificar(productos obj, string prod, float pre) //modifica
@@ -69,6 +72,19 @@ class Productosvector
 					vectorproductos[i].setproducto(prod);
 					vectorproductos[i].setprecio(pre);
 					
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		bool modificarcodigo(productos obj, int cod) //modifica
+		{
+			for(int i=0;i<rows();i++)
+			{
+				if(obj.getcodigo() == get(i).getcodigo())
+				{
+					vectorproductos[i].setcodigo(cod-1);
 					return true;
 				}
 			}
@@ -93,7 +109,7 @@ class Productosvector
 			}
 		}
 		
-		void grabarModificarEliminarArchivo()
+		void grabarModificarEliminarArchivo(productos pro)
 		{
 			try // metodo para agarrar errores
 			{
@@ -104,7 +120,6 @@ class Productosvector
 					for (productos og : vectorproductos)													//loop para encontrar todos las casillas en el vector
 					{
 						archivopro<<og.getcodigo()<<";"<<og.getproducto()<<";"<<og.getprecio()<<";"<<"\n";  //grabo los parametros introducidos dejando una ; entre cada uno
-						
 					}
 					archivopro.close();//cierra
 				}
@@ -127,8 +142,10 @@ class Productosvector
 				archivopro.open("productos.csv", ios::in);													//ios::in según documentación es para extraer y leer data
 				if (archivopro.is_open())
 				{
+					
 					while (!archivopro.eof()) 																//eof = end of the file, "!" significa lo contrario a lo escrito ahí (~)
 					{
+					
 						while (getline(archivopro, linea))													//MIENTRAS encuentra la linea en productos.csv con la string linea
 						{
 							i = 0;
@@ -153,5 +170,47 @@ class Productosvector
 			{
 				cout << "No se pudo leer el archivo";														//por si acaso falla y no crashea ( no probable ) 
 			}
+		}
+		
+		productos busquedaBinaria(int cod_a_buscar)
+		{
+			int superior;
+			int inferior;
+			int mitad;
+			
+			
+			bool flag = false;
+			
+			inferior 	= 0;
+			superior	= vectorproductos.size();
+			
+			mitad = ( inferior + superior )/2;
+			while( inferior <= superior )
+			{
+				if( vectorproductos[mitad].getcodigo() == cod_a_buscar )
+				{
+					flag = true;
+					break;
+				}
+				if( vectorproductos[mitad].getcodigo() > cod_a_buscar )
+				{
+					superior = mitad - 1;
+				}
+				if( vectorproductos[mitad].getcodigo() < cod_a_buscar )
+				{
+					inferior = mitad + 1;
+				}
+				mitad = (inferior + superior) / 2;
+			}
+			if(flag == true)
+			{
+				cout<<"El dato pedido fue: "<<mitad+1<<" - "<<get(mitad).getproducto()<<" - "<<"S/."<<get(mitad).getprecio()<<endl;
+				return get(mitad);
+			}
+			else
+			{
+				cout<<"NO encontrado!!! - Defaulteando al último!"<<endl;
+			}
+			return get(mitad);
 		}
 	};
