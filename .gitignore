@@ -1,7 +1,0 @@
-.vs
-x64
-.vscode
-*.exe
-*.vcxproj
-*.vcxproj.user
-*.vcxproj.filters
