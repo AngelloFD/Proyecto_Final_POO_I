@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 class ventas
 {
 private:
@@ -14,7 +16,7 @@ private:
 public:
    ventas(int cod, int can, string pro, float pre)
    {
-      codigo = cod;  
+      codigo = cod;
       cantidad = can;
       producto = pro;
       precio = pre;
@@ -22,7 +24,7 @@ public:
    ventas() {} // constructor vacío
 
    // sets
-    void setcodigo(int cod)
+   void setcodigo(int cod)
    {
       codigo = cod;
    }
@@ -42,10 +44,10 @@ public:
    }
 
    // get
-    int getcodigo()
-    {
-        return codigo;
-    }
+   int getcodigo()
+   {
+      return codigo;
+   }
 
    int getcantidad()
    {

@@ -90,7 +90,7 @@ void menuopcionesadmin()
 }
 
 
-void insertarpalabras()
+void insertarpalabras()  // PRODUCTOS - INSERTA PALABRAS A PRODUCTOS.CSV
 {
 	string producto;
 	string rpta;
@@ -127,7 +127,7 @@ void insertarpalabras()
 	
 }
 
-void listarproductos()
+void listarproductos() // CARGA PRODUCTOS DE PRODUCTOS.CSV
 {
 	string salir;
 	for ( int i = 0; i<vectorpro.rows(); i++)
@@ -146,7 +146,7 @@ void listarproductos()
 	}
  }
 
-void eliminarproductos() // La funcion para restar codigos no sirve
+void eliminarproductos() // La funcion para restar codigos no sirve - ELIMINA ALGO DE PRODUCTOS.CSV (CAUSA BUGS) (TO-DO Funcion para restar codigos y mover de espacios por -1)
 {
 	productos pro;
 	int codigo;
@@ -207,7 +207,7 @@ void eliminarproductos() // La funcion para restar codigos no sirve
 	}
 }
 
-void modificarproductos()
+void modificarproductos() // MODIFICA EN PRODUCTOS.CSV
 {
 	productos pro;
 	int cod;
@@ -255,7 +255,8 @@ void modificarproductos()
 }
 // NO ADMINS
 
-void menunormal()
+/*
+void menunormal() //VENTAS ANTES DE MANDAR A SU PROPIO HEADER
 {
 	int numero;
 	string rpta;
@@ -402,4 +403,4 @@ void factura()
 		menunormal();
 	}
 }
-
+ */
