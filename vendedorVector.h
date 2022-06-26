@@ -97,7 +97,7 @@ class VendedorVector
 			try
 			{
 				fstream archivoVendedor;
-				archivoVendedor.open("alumnos.csv",ios::app);
+				archivoVendedor.open("vendedores.csv",ios::app);
 				if(archivoVendedor.is_open())
 				{
 					archivoVendedor<<vendedor.getCodigo()<<";"<<vendedor.getNombre()<<";"<<endl;
@@ -119,7 +119,7 @@ class VendedorVector
 				string linea;
 				string temporal[2];//Cantidad de columnas
 				fstream archivoVendedor;
-				archivoVendedor.open("alumnos.csv", ios::in);
+				archivoVendedor.open("vendedores.csv", ios::in);
 				if (archivoVendedor.is_open())
 				{
 					while (!archivoVendedor.eof()) 
@@ -154,7 +154,7 @@ class VendedorVector
         try
         {
             fstream archivoVendedor;
-            archivoVendedor.open("alumnos.csv", ios::out);
+            archivoVendedor.open("vendedores.csv", ios::out);
                   if (archivoVendedor.is_open())
                 {
                     for (Vendedor x : vectorVendedor)
