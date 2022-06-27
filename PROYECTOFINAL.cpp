@@ -20,6 +20,7 @@ using std::stoi;
 
 // globales - DE PRODUCTOS
 float ptotal;
+float nuevot;
 // objectos y vectores de ayuda - DE PRODUCTOS
 Productosvector vectorpro;
 vector<int> vectorregistro;
@@ -85,7 +86,7 @@ void menuopcionesadmin() // MENU - PRODUCTOS
 	cout << "MOSTRAR PRODUCTOS ACTUALES	[2]" << endl;
 	cout << "ELIMINAR PRODUCTOS		[3]" << endl;
 	cout << "MODIFICAR PRODUCTOS		[4]" << endl;
-	cout << "MENU NORMAL			[5]" << endl;
+	cout << "MENU VENTAS			[5]" << endl;
 	cout << "Ingresa tu numero:" << endl;
 	cin >> numero;
 
@@ -98,7 +99,17 @@ void menuopcionesadmin() // MENU - PRODUCTOS
 		break;
 	case 2:
 		system("cls");
-		listarproductos();
+		if (vectorpro.rows() == 0)
+		{
+			cout << "No hay productos en el archivo!" << endl;
+			system("pause");
+			system("cls");
+			menuopcionesadmin();
+		}
+		else
+		{
+			listarproductos();
+		}
 		break;
 	case 3:
 		system("cls");
@@ -110,7 +121,7 @@ void menuopcionesadmin() // MENU - PRODUCTOS
 		break;
 	case 5:
 		system("cls");
-		modificarproductos();
+		menunormal();
 		break;
 	default:
 		cout << "Ingresa numero valido!" << endl;
@@ -134,7 +145,7 @@ void insertarpalabras() // PRODUCTOS - INSERTA PALABRAS A PRODUCTOS.CSV
 	string producto;
 	string rpta;
 	int codigo;
-	int precio;
+	float precio;
 	system("cls");
 	cout << "ADMIN, agrege los productos" << endl;
 	do
@@ -156,7 +167,7 @@ void insertarpalabras() // PRODUCTOS - INSERTA PALABRAS A PRODUCTOS.CSV
 		vectorpro.add(pro);
 		vectorpro.grabarEnArchivo(pro);
 
-		cout << "Desea continuar? // SI O NO // ";
+		cout << "Desea continuar? // SI O NO // "<<endl;
 		cin >> rpta;
 		system("cls");
 		cout << "Usted ha insertado " << pro.getproducto() << ", con un precio de: " << pro.getprecio() << ", en la ranura: " << vectorpro.getCorrelativo() - 1 << endl;
@@ -249,7 +260,7 @@ void eliminarproductos() // La funcion para restar codigos no sirve - ELIMINA AL
 		*/
 
 		vectorpro.grabarModificarEliminarArchivo(pro);
-
+		system("cls");
 		menuopcionesadmin();
 	}
 }
@@ -258,37 +269,34 @@ void modificarproductos() // MODIFICA EN PRODUCTOS.CSV
 {
 	productos pro;
 	int cod;
-	// listando primero
-	for (int i = 0; i < vectorpro.rows(); i++)
+	//listando primero
+	for ( int i = 0; i<vectorpro.rows(); i++)
 	{
-		cout << "Codigo: " << vectorpro.get(i).getcodigo() << " - "
-			 << " Producto: " << vectorpro.get(i).getproducto() << " - "
-			 << " Precio: S/." << vectorpro.get(i).getprecio() << endl;
+		cout<<"Codigo: "<<vectorpro.get(i).getcodigo()<<" - "<<" Producto: "<<vectorpro.get(i).getproducto()<<" - "<<" Precio: S/."<<vectorpro.get(i).getprecio()<<endl;	
 	}
 	//
-	cout << "Ingresar el codigo a modificar:" << endl;
-	cin >> cod;
-	productos objAModificar = vectorpro.busquedaBinaria(cod); // usando busqueda binaria y asignando a objecto
-
-	cout << "Registro Encontrado\n";
-	cout << "Codigo: " << objAModificar.getcodigo() << endl;
-	cout << "Producto:" << objAModificar.getproducto() << endl;
-	cout << "Precio: S/. " << objAModificar.getprecio() << endl;
+	cout<<"Ingresar el codigo a modificar:"<<endl;	
+	cin>>cod;
+	productos objAModificar = vectorpro.busquedaBinaria(cod);	 // usando busqueda binaria y asignando a objecto
+	
+	cout<<"Registro Encontrado\n";
+	cout<<"Codigo: "<<objAModificar.getcodigo()<<endl;
+	cout<<"Producto:"<<objAModificar.getproducto()<<endl;
+	cout<<"Precio: S/. "<<objAModificar.getprecio()<<endl;
 	cin.ignore();
-
+	
 	string proModificado;
 	float preModificado;
-	cout << "////////////////////////////////////////////////////////////////" << endl;
-	cout << "Modifica el Producto: " << endl;
-	cin >> proModificado;
-	cout << "Modifica el Precio: " << endl;
-	cin >> preModificado;
-
-	bool estado = vectorpro.modificar(objAModificar, proModificado, preModificado); // pasando a vector.h
-	if (estado = true)
+	cout<<"////////////////////////////////////////////////////////////////"<<endl;
+	cout<<"Modifica el Producto: "<<endl;
+	cin>>proModificado;
+	cout<<"Modifica el Precio: "<<endl;
+	cin>>preModificado;
+	
+	bool estado = vectorpro.modificar(objAModificar,proModificado,preModificado);	 //pasando a vector.h
+	if(estado = true)
 	{
-		cout << "GRABADO!" << endl;
-		;
+		cout<<"GRABADO!"<<endl;;
 		vectorpro.grabarModificarEliminarArchivo(pro);
 		system("pause");
 		system("cls");
@@ -296,14 +304,13 @@ void modificarproductos() // MODIFICA EN PRODUCTOS.CSV
 	}
 	else
 	{
-		cout << "ALGO FALLO";
+		cout<<"ALGO FALLO";
 		system("pause");
 		menuopcionesadmin();
 	}
 	system("pause");
 	system("cls");
 }
-
 /*
 #########################################################################
 -------------------------FIN DE PRODUCTOS-----------------------------
@@ -497,7 +504,7 @@ void loginUsuario()
 			}
 		}
 		system("cls");
-		tipoDeUsuario();
+		menunormal();
 	}
 }
 
@@ -725,7 +732,7 @@ void adicionarVendedores()
 			cod = 100000 + (rand() % 999999);
 		}
 		gotoxy(50, 8);
-		cout << "La contrase?a generada es:";
+		cout << "La contrasena generada es:";
 		gotoxy(50, 10);
 		cout << cod << endl;
 		cin.ignore();
@@ -892,7 +899,7 @@ void menunormal()
 	cout << "COMPRAR						[1]" << endl;
 	cout << "LISTA DE LOS PRODUCTOS ACTUALES			[2]" << endl;
 	cout << "PAGAR						[3] " << endl;
-	cout << "MOSTRAR FACTURA	(SIN DESCUENTO)			[4] " << endl;
+	cout << "MOSTRAR FACTURA					[4] " << endl;
 
 	cout << "Ingresa tu numero:" << endl;
 	cin >> numero;
@@ -996,7 +1003,7 @@ void comprando2()
 		cin >> codigo;
 		cout << "Cuantos?" << endl;
 		cin >> cantidad;
-		cout << "Usted seleccionó: " << endl;
+		cout << "Usted selecciono: " << endl;
 		cout << "Producto: " << vectorpro.get(codigo - 1).getproducto() << " - "
 			 << "S/. " << vectorpro.get(codigo - 1).getprecio() * cantidad << endl; // listando la lista encontrada SIN BUSQUEDA BINARIA
 		if (codigo > vectorpro.rows())
@@ -1043,8 +1050,7 @@ void comprando2()
 void pagar() // necesito datos de otra parte
 {
 	int rpta;
-	float nuevot;
-	cout << "¿Desea pagar con efectivo(1) o Tarjeta Venta+ (2)? "
+	cout << "�Desea pagar con efectivo(1) o Tarjeta Venta+ (2)? "
 		 << "\n";
 	cout << "Ingrese 1 o 2: "
 		 << "\n";
@@ -1060,8 +1066,8 @@ void pagar() // necesito datos de otra parte
 			 << "\n";
 		cout << "Total sin descuento: " << ptotal << endl;
 		;
-		nuevot = ptotal * 0.75;
-		cout << "Nuevo total: " << ptotal << "\n";
+		nuevot = ptotal * 0.85;
+		cout << "Nuevo total: " << nuevot << "\n";
 		cout << "**** Gracias por su compra ****" << endl;
 		break;
 	default:
@@ -1081,6 +1087,7 @@ void factura()
 		cout << "Producto: " << vectorpro.get(vectorregistro[i] - 1).getproducto() << " - "
 			 << "S/. " << vectorpro.get(vectorregistro[i] - 1).getprecio() * vectorcantidad[i] << endl;
 	}
+	cout << "Total descuento: "<<nuevot<<endl;
 	cout << "Total = S/. " << ptotal << endl;
 
 	cout << "Escriba SALIR para regresar: " << endl;
