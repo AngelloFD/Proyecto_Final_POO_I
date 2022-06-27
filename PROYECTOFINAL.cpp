@@ -269,37 +269,34 @@ void modificarproductos() // MODIFICA EN PRODUCTOS.CSV
 {
 	productos pro;
 	int cod;
-	// listando primero
-	for (int i = 0; i < vectorpro.rows(); i++)
+	//listando primero
+	for ( int i = 0; i<vectorpro.rows(); i++)
 	{
-		cout << "Codigo: " << vectorpro.get(i).getcodigo() << " - "
-			 << " Producto: " << vectorpro.get(i).getproducto() << " - "
-			 << " Precio: S/." << vectorpro.get(i).getprecio() << endl;
+		cout<<"Codigo: "<<vectorpro.get(i).getcodigo()<<" - "<<" Producto: "<<vectorpro.get(i).getproducto()<<" - "<<" Precio: S/."<<vectorpro.get(i).getprecio()<<endl;	
 	}
 	//
-	cout << "Ingresar el codigo a modificar:" << endl;
-	cin >> cod;
-	productos objAModificar = vectorpro.busquedaBinaria(cod); // usando busqueda binaria y asignando a objecto
-
-	cout << "Registro Encontrado\n";
-	cout << "Codigo: " << objAModificar.getcodigo() << endl;
-	cout << "Producto:" << objAModificar.getproducto() << endl;
-	cout << "Precio: S/. " << objAModificar.getprecio() << endl;
+	cout<<"Ingresar el codigo a modificar:"<<endl;	
+	cin>>cod;
+	productos objAModificar = vectorpro.busquedaBinaria(cod);	 // usando busqueda binaria y asignando a objecto
+	
+	cout<<"Registro Encontrado\n";
+	cout<<"Codigo: "<<objAModificar.getcodigo()<<endl;
+	cout<<"Producto:"<<objAModificar.getproducto()<<endl;
+	cout<<"Precio: S/. "<<objAModificar.getprecio()<<endl;
 	cin.ignore();
-
+	
 	string proModificado;
 	float preModificado;
-	cout << "////////////////////////////////////////////////////////////////" << endl;
-	cout << "Modifica el Producto: " << endl;
-	cin >> proModificado;
-	cout << "Modifica el Precio: " << endl;
-	cin >> preModificado;
-
-	bool estado = vectorpro.modificar(objAModificar, proModificado, preModificado); // pasando a vector.h
-	if (estado = true)
+	cout<<"////////////////////////////////////////////////////////////////"<<endl;
+	cout<<"Modifica el Producto: "<<endl;
+	cin>>proModificado;
+	cout<<"Modifica el Precio: "<<endl;
+	cin>>preModificado;
+	
+	bool estado = vectorpro.modificar(objAModificar,proModificado,preModificado);	 //pasando a vector.h
+	if(estado = true)
 	{
-		cout << "GRABADO!" << endl;
-		;
+		cout<<"GRABADO!"<<endl;;
 		vectorpro.grabarModificarEliminarArchivo(pro);
 		system("pause");
 		system("cls");
@@ -307,14 +304,13 @@ void modificarproductos() // MODIFICA EN PRODUCTOS.CSV
 	}
 	else
 	{
-		cout << "ALGO FALLO";
+		cout<<"ALGO FALLO";
 		system("pause");
 		menuopcionesadmin();
 	}
 	system("pause");
 	system("cls");
 }
-
 /*
 #########################################################################
 -------------------------FIN DE PRODUCTOS-----------------------------
@@ -903,7 +899,7 @@ void menunormal()
 	cout << "COMPRAR						[1]" << endl;
 	cout << "LISTA DE LOS PRODUCTOS ACTUALES			[2]" << endl;
 	cout << "PAGAR						[3] " << endl;
-	cout << "MOSTRAR FACTURA				[4] " << endl;
+	cout << "MOSTRAR FACTURA					[4] " << endl;
 
 	cout << "Ingresa tu numero:" << endl;
 	cin >> numero;
@@ -1070,8 +1066,8 @@ void pagar() // necesito datos de otra parte
 			 << "\n";
 		cout << "Total sin descuento: " << ptotal << endl;
 		;
-		nuevot = ptotal * 0.75;
-		cout << "Nuevo total: " << ptotal << "\n";
+		nuevot = ptotal * 0.85;
+		cout << "Nuevo total: " << nuevot << "\n";
 		cout << "**** Gracias por su compra ****" << endl;
 		break;
 	default:
