@@ -1,5 +1,5 @@
 #pragma once
-// librer�as global
+// librerï¿½as global
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -67,7 +67,7 @@ CLIENTES_V cliente_vector;
 
 int main()
 {
-	setlocale(LC_CTYPE, "Spanish"); // idioma ESPA�OL
+	setlocale(LC_CTYPE, "Spanish"); // idioma ESPAï¿½OL
 	tipoDeUsuario();
 }
 /*
@@ -497,7 +497,7 @@ void loginUsuario()
 				system("pause");
 				system("cls");
 
-				cout << "COMPLETAR CON CLIENTES O VENTAS" << endl;
+				cout << "MENU CLIENTES" << endl;
 				system("pause");
 				system("cls");
 				tipoDeUsuario(); // REEMPLAZAR PROXIMAMENTE-------
@@ -1050,7 +1050,7 @@ void comprando2()
 void pagar() // necesito datos de otra parte
 {
 	int rpta;
-	cout << "�Desea pagar con efectivo(1) o Tarjeta Venta+ (2)? "
+	cout << "¿Desea pagar con efectivo(1) o Tarjeta Venta+ (2)? "
 		 << "\n";
 	cout << "Ingrese 1 o 2: "
 		 << "\n";
