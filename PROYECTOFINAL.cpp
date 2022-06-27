@@ -497,7 +497,7 @@ void loginUsuario()
 				system("pause");
 				system("cls");
 
-				cout << "MENU CLIENTES" << endl;
+				menunormal();
 				system("pause");
 				system("cls");
 				tipoDeUsuario(); // REEMPLAZAR PROXIMAMENTE-------
