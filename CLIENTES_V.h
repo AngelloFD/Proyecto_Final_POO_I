@@ -200,7 +200,7 @@ public:
 			int i;
 			size_t posi;
 			std::string linea;
-			std::string temporal[7];
+			std::string temporal[8];
 			std::fstream archivo_cliente;
 			archivo_cliente.open("DATA_CLIENTES.csv", std::ios::in);
 			if (archivo_cliente.fail())
@@ -223,8 +223,12 @@ public:
 					clt.set_codigo(std::stoi(temporal[0]));
 					clt.set_nombre(temporal[1]);
 					clt.set_apellido(temporal[2]);
-					clt.set_tarjeta_ventaPlus(std::stoi(temporal[3]));
-					clt.set_registrado_web(std::stoi(temporal[4]));
+					char *c = new char[temporal[3].length() + 1];
+					strcpy_s(c, temporal[3].length() + 1, temporal[3].c_str());
+					clt.set_tarjeta_ventaPlus(*c);
+					char *d = new char[temporal[4].length() + 1];
+					strcpy_s(d, temporal[4].length() + 1, temporal[4].c_str());
+					clt.set_registrado_web(*d);
 					clt.set_correo(temporal[5]);
 					clt.set_contrasena(temporal[6]);
 					clt.set_celular((temporal[7]));
@@ -427,21 +431,28 @@ public:
 			std::cout << "No hay clientes registrados\n";
 			return;
 		}
-		for (int i = 0; i < rows(); i++)
+		char rpta;
+		do
 		{
-			std::cout << i << ") " << get(i).get_nombre() << " " << get(i).get_apellido() << "\n";
-		}
-		int codigo;
-		std::cout << "Ingrese el codigo del cliente a consultar:\n";
-		std::cin >> codigo;
-		Cliente clt = get(codigo);
-		std::cout << "Registro encontrado:\n";
-		std::cout << "--------------------------------------\n";
-		std::cout << "Codigo: " << clt.get_codigo() << "\n";
-		std::cout << "Nombre: " << clt.get_nombre() << "\n";
-		std::cout << "Apellido: " << clt.get_apellido() << "\n";
-		std::cout << "Tarjeta_Venta+: " << clt.get_tarjeta_ventaPlus() << "\n";
-		std::cout << "Registrado en la web: " << clt.get_registrado_web() << "\n";
+			for (int i = 0; i < rows(); i++)
+			{
+				std::cout << i << ") " << get(i).get_nombre() << " " << get(i).get_apellido() << "\n";
+			}
+			int codigo;
+			std::cout << "Ingrese el codigo del cliente a consultar:\n";
+			std::cin >> codigo;
+			Cliente clt = get(codigo);
+			std::cout << "Registro encontrado:\n";
+			std::cout << "--------------------------------------\n";
+			std::cout << "Codigo: " << clt.get_codigo() << "\n";
+			std::cout << "Nombre: " << clt.get_nombre() << "\n";
+			std::cout << "Apellido: " << clt.get_apellido() << "\n";
+			std::cout << "Tarjeta_Venta+: " << clt.get_tarjeta_ventaPlus() << "\n";
+			std::cout << "Registrado en la web: " << clt.get_registrado_web() << "\n";
+
+			std::cout << "Desea continuar (S/N)\n";
+			std::cin >> rpta;
+		} while (rpta == 'S');
 	}
 
 	void cliente_eliminar() // Eliminar cliente
